@@ -1,2 +1,5 @@
 # find-my-friend
-quick web-app to help find lost animal companions using NFC tags
+## Web-app to help find lost animal companions using NFC tags
+
+### This project is using:
+- [Svelte](https://svelte.dev/)
