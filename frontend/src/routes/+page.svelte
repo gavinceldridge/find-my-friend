@@ -3,16 +3,23 @@
 
 	const name: string = 'Chacka';
 	import image from "../imgs/chacka.jpeg"
+	let location: any = false;
+
+
+	let modal: any;
+	let message: string;
+
 
 	function handleLocationSend() {
 		const successCallback = (position: any) => {
-			console.log(position);
-			const message = `Hi, I found your lost ${name} at https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`;
-			window.open(`mailto:hunter@hpe-arch.net?subject=Found%20${name}&body=${message}`);
+			message = `Hi, I found your lost ${name} at https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`;
+			location = position;
+			// const message = `Hi, I found your lost ${name} at https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`;
+			// window.open(`mailto:hunter@hpe-arch.net?subject=Found%20${name}&body=${message}`);
 		};
 
 		const errorCallback = (error: any) => {
-		console.log(error);
+			console.log(error);
 		};
 
 		navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -62,20 +69,60 @@
 
 		</ul>
 		<div class="btn-container">
-			<button class="location-btn" on:click={handleLocationSend}>Send your current location</button>
+			<button class="btn" on:click={() => {
+				modal.show();
+			}}>Share your current location</button>
 		</div>
 	</div>
 
+	<!-- modal -->
+	<dialog class="modal" bind:this={modal}>
+		<div class="modal-content">
+			<h3>Send your location:</h3>
+
+			<button class="btn close" on:click={() => {
+				modal.close();
+			}}>x</button>
+
+			{#if location}
+
+			<a class="btn" href={`mailto:hunter@hpearch.net??subject=Found%20${name}&body=${message}`}>Send</a>
+			{:else}
+			  <p>Please enable location services in your web browser here:</p>
+			  <button class="btn" on:click={handleLocationSend}>Enable</button>
+			{/if}
+
+			
+
+			
+		</div>
+	</dialog>
+			
 </main>
 
 <style>
 
+	.modal {
+		position: absolute;
+		top: 50%;
+		/* z-index: 5; */
+	}
+
+	.modal-content{
+		position: relative;
+		min-width: 70vw;
+	}
+
+	.modal::backdrop {
+		background: rgba(0, 0, 0, 0.5);
+	}
+	
 	.btn-container {
 		display: flex;
 		justify-content: center;
 	}
 
-	.location-btn {
+	.btn {
 		background: rgb(9, 0, 176);
 		color: white;
 		border: none;
@@ -84,12 +131,26 @@
 		margin-block: 1rem;
 	}
 
-	.location-btn:hover {
+	.btn:hover {
 		box-shadow: 0px 0px 10px black;
 	}
 
 	li {
 		margin-block: .25rem;
+	}
+
+	.close {
+		background: red;
+		border-radius: 50%;
+		width:1.5rem;
+		height: 1.5rem;
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		right: 0;
+		top: 0;
+		margin: 0;
 	}
 
 	main {
