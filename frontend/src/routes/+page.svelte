@@ -86,7 +86,7 @@
 
 			{#if location}
 
-			<a class="btn" href={`mailto:hunter@hpe-arch.net?subject=Found%20${name}&body=${message}`}>Send</a>
+			<a class="btn" href={`mailto:hunter@hpe-arch.com?subject=Found%20${name}&body=${message}`}>Send</a>
 			{:else}
 			  <p>Please enable location services in your web browser here:</p>
 			  <button class="btn" on:click={handleLocationSend}>Enable</button>
